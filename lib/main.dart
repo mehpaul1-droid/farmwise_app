@@ -1,18 +1,20 @@
-import 'package:flutter/material.dart';
-import 'ai_control_center.dart';
+﻿import 'package:flutter/material.dart';
+import 'auth/auth_gate.dart';
 
 void main() {
-  runApp(const FarmWiseApp());
+  runApp(const MyApp());
 }
 
-class FarmWiseApp extends StatelessWidget {
-  const FarmWiseApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AIControlCenter(),
+      title: 'FarmWise AI',
+      theme: ThemeData.dark(),
+      home: const AuthGate(),
     );
   }
 }
