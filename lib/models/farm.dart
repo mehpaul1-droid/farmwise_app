@@ -1,20 +1,13 @@
-﻿enum FarmCategory {
-  livestock,
-  poultry
-}
-
-class Farm {
-  final String id;
+﻿class Farm {
   final String name;
-  final FarmCategory category;
-  final String type;
-  final int animalCount;
+  final double income;
+  final double cost;
 
   Farm({
-    required this.id,
     required this.name,
-    required this.category,
-    required this.type,
-    required this.animalCount,
+    required this.income,
+    required this.cost,
   });
+
+  double get profit => income - cost;
 }

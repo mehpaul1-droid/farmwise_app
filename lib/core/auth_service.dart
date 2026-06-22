@@ -1,22 +1,30 @@
-﻿import 'dart:convert';
-import 'package:http/http.dart' as http;
+﻿import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
 
-  static Future<bool> login(String phone, String pass) async {
-    try {
-      final res = await http.post(
-        Uri.parse("https://farmwiseonlinebackend-production.up.railway.app/login"),
-        body: jsonEncode({
-          "phone": phone,
-          "password": pass
-        }),
-        headers: {"Content-Type": "application/json"},
-      );
+  // ---------------- SAVE LOGIN ----------------
+  static Future<void> saveLogin(String phone, String role) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("phone", phone);
+    await prefs.setString("role", role);
+    await prefs.setBool("loggedIn", true);
+  }
 
-      return res.statusCode == 200;
-    } catch (e) {
-      return false;
-    }
+  // ---------------- CHECK LOGIN ----------------
+  static Future<bool> checkLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("loggedIn") ?? false;
+  }
+
+  // ---------------- GET ROLE ----------------
+  static Future<String?> getRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("role");
+  }
+
+  // ---------------- LOGOUT ----------------
+  static Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 }

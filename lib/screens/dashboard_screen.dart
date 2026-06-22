@@ -1,94 +1,83 @@
 ﻿import 'package:flutter/material.dart';
-import '../core/auth_service.dart';
-import '../widgets/profit_advanced_chart.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
-}
-
-class _DashboardScreenState extends State<DashboardScreen> {
-
-  @override
   Widget build(BuildContext context) {
-
-    final role = AuthService.role ?? "user";
-
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
 
-      appBar: AppBar(
-        title: const Text("سامانه هوشمند مدیریت فارم"),
-        backgroundColor: const Color(0xFF1B5E20),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await AuthService.logout();
-              Navigator.pushReplacementNamed(context, "/");
-            },
-          )
-        ],
-      ),
-
-      body: ListView(
-        padding: const EdgeInsets.all(16),
+      body: Stack(
+        fit: StackFit.expand,
         children: [
 
-          // 💥 MAIN CHART
-          const ProfitAdvancedChart(),
+          // 🌿 Background image (placeholder)
+          Image.network(
+            "https://images.unsplash.com/photo-1501004318641-b39e6451bec6",
+            fit: BoxFit.cover,
+          ),
 
-          const SizedBox(height: 20),
+          // 🌑 overlay blur dark
+          Container(
+            color: Colors.black.withOpacity(0.6),
+          ),
 
-          _kpi("📈 درآمد کل", "125,000,000 تومان"),
-          _kpi("💸 هزینه کل", "78,000,000 تومان"),
-          _kpi("💰 سود خالص", "47,000,000 تومان"),
+          // 📊 content
+          ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
 
-          const SizedBox(height: 20),
+              const SizedBox(height: 40),
 
-          _section("وضعیت سیستم", "فعال 🟢"),
+              const Text(
+                "FarmWise Dashboard",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
 
-          if (role == "admin") ...[
-            _section("مدیریت کامل سیستم", "دسترسی کامل"),
-            _section("کاربران", "کنترل شده"),
-            _section("تنظیمات AI", "فعال"),
-          ],
+              const SizedBox(height: 20),
 
-          if (role == "user") ...[
-            _section("فارم شما", "در حال پایش"),
-            _section("تحلیل AI", "فعال"),
-          ],
+              _card("درآمد کل", "1200000"),
+              _card("هزینه کل", "800000"),
+              _card("سود خالص", "400000"),
 
-          if (role == "operator") ...[
-            _section("تولید", "در حال اجرا"),
-            _section("وظایف", "فعال"),
-          ],
+              const SizedBox(height: 20),
+
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Center(
+                  child: Text(
+                    "📈 نمودار SHI",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Widget _kpi(String title, String value) {
+  Widget _card(String title, String value) {
     return Card(
-      color: const Color(0xFF111C33),
+      color: Colors.white.withOpacity(0.1),
       child: ListTile(
-        title: Text(title, style: const TextStyle(color: Colors.white70)),
+        title: Text(title, style: const TextStyle(color: Colors.white)),
         trailing: Text(
           value,
-          style: const TextStyle(color: Colors.greenAccent),
+          style: const TextStyle(
+            color: Colors.greenAccent,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _section(String title, String value) {
-    return Card(
-      color: const Color(0xFF1E293B),
-      child: ListTile(
-        title: Text(title, style: const TextStyle(color: Colors.white70)),
-        trailing: Text(value, style: const TextStyle(color: Colors.white)),
       ),
     );
   }
