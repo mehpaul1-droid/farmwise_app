@@ -1,5 +1,4 @@
 ﻿import 'package:flutter/material.dart';
-import '../widgets/profit_chart.dart';
 
 class HomeDashboard extends StatelessWidget {
   const HomeDashboard({super.key});

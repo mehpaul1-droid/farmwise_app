@@ -1,52 +1,55 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 
-class TestAiPage extends StatefulWidget {
-  const TestAiPage({super.key});
+class TestAIPage extends StatefulWidget {
+  const TestAIPage({super.key});
 
   @override
-  State<TestAiPage> createState() => _TestAiPageState();
+  State<TestAIPage> createState() => _TestAIPageState();
 }
 
-class _TestAiPageState extends State<TestAiPage> {
-  String result = "هنوز تست انجام نشده";
+class _TestAIPageState extends State<TestAIPage> {
+  String resultText = "هنوز تحلیلی انجام نشده است.";
   bool loading = false;
 
-  void runTest() async {
+  Future<void> runTest() async {
     setState(() => loading = true);
 
-    try {
-      final res = await ApiService.analyzeFarm(
-        type: "cow",
-        count: 10,
-      );
+    final result = await ApiService.analyzeFarm(
+      type: "cow",
+      count: 25,
+    );
 
-      setState(() {
-        result = res.toString();
-      });
-    } catch (e) {
-      setState(() {
-        result = "خطا: $e";
-      });
-    }
-
-    setState(() => loading = false);
+    setState(() {
+      resultText = result["aiNote"].toString();
+      loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("AI Test")),
+      backgroundColor: const Color(0xFF0F172A),
+      appBar: AppBar(
+        title: const Text("تست هوش مصنوعی"),
+        backgroundColor: const Color(0xFF0F172A),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            Text(
+              resultText,
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: loading ? null : runTest,
-              child: Text(loading ? "در حال تحلیل..." : "اجرای تحلیل AI"),
+              child: loading
+                  ? const CircularProgressIndicator()
+                  : const Text("اجرای تست AI"),
             ),
-            const SizedBox(height: 20),
-            Expanded(child: SingleChildScrollView(child: Text(result))),
           ],
         ),
       ),

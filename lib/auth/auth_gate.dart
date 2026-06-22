@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
-import '../screens/dashboard.dart';
-import '../screens/login_page.dart';
+import 'login_page.dart';
+import '../screens/farm_list_screen.dart';
+import 'login_service.dart';
 
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
@@ -10,20 +11,18 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-  bool isLoggedIn = false;
 
   @override
   Widget build(BuildContext context) {
-    if (!isLoggedIn) {
+
+    if (!LoginService.isLoggedIn) {
       return LoginPage(
-        onLoginSuccess: () {
-          setState(() {
-            isLoggedIn = true;
-          });
+        onSuccess: () {
+          setState(() {});
         },
       );
     }
 
-    return const Dashboard();
+    return const FarmListScreen();
   }
 }

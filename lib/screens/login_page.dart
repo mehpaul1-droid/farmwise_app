@@ -1,51 +1,49 @@
 ﻿import 'package:flutter/material.dart';
+import 'register_page.dart';
 
-class LoginPage extends StatefulWidget {
-  final VoidCallback onLoginSuccess;
-
-  const LoginPage({super.key, required this.onLoginSuccess});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController phoneController = TextEditingController();
-
-  void login() {
-    if (phoneController.text.isNotEmpty) {
-      widget.onLoginSuccess();
-    }
-  }
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "FarmWise AI",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 30),
-              TextField(
-                controller: phoneController,
-                decoration: const InputDecoration(
-                  labelText: "شماره موبایل",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: login,
-                child: const Text("ورود"),
-              ),
-            ],
-          ),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            const Text("سامانه مدیریت فارم"),
+
+            const TextField(
+              decoration: InputDecoration(labelText: "شماره موبایل"),
+            ),
+
+            const TextField(
+              decoration: InputDecoration(labelText: "رمز عبور"),
+              obscureText: true,
+            ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("ورود"),
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const RegisterPage(),
+                  ),
+                );
+              },
+              child: const Text("ثبت نام"),
+            ),
+          ],
         ),
       ),
     );
